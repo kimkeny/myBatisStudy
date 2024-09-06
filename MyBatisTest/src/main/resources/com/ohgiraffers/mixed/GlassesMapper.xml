@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.mixed.GlassesMapper">
+
+    <resultMap id="glassesResultMap" type="com.ohgiraffers.dto.GlassesDTO">
+        <id property="glassesCode" column="glasses_code"/>
+        <result property="glassesName" column="glasses_name"/>
+        <result property="glassesPrice" column="glasses_price"/>
+        <result property="categoryCode" column="category_code"/>
+    </resultMap>
+
+    <resultMap id="lensResultMap" type="com.ohgiraffers.dto.LensDTO">
+        <id property="lensCode" column="lens_code"/>
+        <result property="lensName" column="lens_name"/>
+        <result property="lensPrice" column="lens_price"/>
+        <result property="categoryCode" column="category_code"/>
+    </resultMap>
+
+    <select id="getAllGlasses" resultMap="glassesResultMap">
+        SELECT
+            glasses_code,
+            glasses_name,
+            glasses_price,
+            category_code
+        FROM
+            tbl_glasses
+        ORDER BY
+            glasses_code
+    </select>
+
+    <select id="getGlassesBy" parameterType="_int" resultMap="glassesResultMap">
+        SELECT
+            glasses_code,
+            glasses_name,
+            glasses_price,
+            category_code
+        FROM
+            tbl_glasses
+        WHERE
+            glasses_code = #{ glassesCode }
+        ORDER BY
+            glasses_code
+    </select>
+
+    <select id="getAllLens" resultMap="lensResultMap">
+        SELECT
+            lens_code,
+            lens_name,
+            lens_price,
+            category_code
+        FROM
+            tbl_lens
+        ORDER BY
+            lens_code
+    </select>
+
+    <select id="getLensBy" parameterType="_int" resultMap="lensResultMap">
+        SELECT
+        lens_code,
+        lens_name,
+        lens_price,
+        category_code
+        FROM
+        tbl_lens
+        WHERE
+        lens_code = #{ lensCode }
+        ORDER BY
+        lens_code
+    </select>
+
+    <insert id="addGlasses" parameterType="com.ohgiraffers.dto.GlassesDTO">
+        INSERT INTO tbl_glasses
+            (
+                glasses_name
+                , glasses_price
+                , category_code
+            )
+        VALUES
+            (
+                #{ glassesName }
+                , #{ glassesPrice }
+                , #{ categoryCode }
+            )
+    </insert>
+
+    <insert id="addLens" parameterType="com.ohgiraffers.dto.LensDTO">
+        INSERT INTO tbl_lens
+        (
+        lens_name,
+        lens_price,
+        category_code
+        )
+        VALUES
+        (
+        #{ lensName }
+        , #{ lensPrice }
+        , #{ categoryCode }
+        )
+    </insert>
+
+    <update id="modifyGlasses" parameterType="com.ohgiraffers.dto.GlassesDTO">
+        UPDATE
+            tbl_glasses
+        SET
+            glasses_name = #{ glassesName },
+            glasses_price = #{ glassesPrice },
+            category_code = #{ categoryCode }
+        WHERE
+            glasses_code = #{ glassesCode }
+    </update>
+
+    <update id="modifyLens" parameterType="com.ohgiraffers.dto.LensDTO">
+        UPDATE
+            tbl_lens
+        SET
+            lens_name = #{ lensName },
+            lens_price = #{ lensPrice },
+            category_code = #{ categoryCode }
+        WHERE
+            lens_code = #{ lensCode }
+    </update>
+
+    <delete id="deleteGlasses" parameterType="_int">
+        DELETE
+        FROM
+            tbl_glasses
+        WHERE
+            glasses_code = #{ glassesCode }
+    </delete>
+
+    <delete id="deleteLens" parameterType="_int">
+        DELETE
+        FROM
+            tbl_lens
+        WHERE
+            lens_code = #{ lensCode }
+    </delete>
+</mapper>

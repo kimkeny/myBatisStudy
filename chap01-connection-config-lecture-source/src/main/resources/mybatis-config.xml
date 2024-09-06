@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--목차. 0. 환경 설정-->
+<!--목차. 0-2. 생성한 환경 설정 정보로 MyBatis 설정 객체 생성-->
+<configuration>
+    <environments default="dev">
+        <!--목차. 0-1. DB 접속을 위한 환경설정 진행-->
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost/menudb"/>
+                <property name="username" value="ohgiraffers"/>
+                <property name="password" value="ohgiraffers"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--목차. 0-3. 설정 객체에 매퍼를 등록-->
+    <mappers>
+        <mapper resource="mapper.xml"/>
+    </mappers>
+</configuration>

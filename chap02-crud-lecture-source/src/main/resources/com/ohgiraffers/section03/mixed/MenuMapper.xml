@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    설명. Mapper XML 파일은...
+     1. DAO 인터페이스와 동일한 패키지에 위치해야 한다.
+     2. DAO 인터페이스의 풀네임을 <mapper>의 namespace 값으로 설정해줘야 한다.
+     3. 작성한 메서드의 이름과 id가 일치하고, 리턴 타입이 일치하는 쿼리문을 모두 작성해야 한다.
+-->
+<mapper namespace="com.ohgiraffers.section03.mixed.MenuMapper">
+
+    <resultMap id="menuResultMap" type="com.ohgiraffers.section03.mixed.MenuDTO">
+        <id property="code" column="menu_code"/>
+        <result property="name" column="menu_name"/>
+        <result property="price" column="menu_price"/>
+        <result property="categoryCode" column="category_code"/>
+        <result property="orderableStatus" column="orderable_status"/>
+    </resultMap>
+
+    <select id="getAllMenus" resultMap="menuResultMap">
+        select
+            a.menu_code ,
+            a.menu_name ,
+            a.menu_price ,
+            a.category_code ,
+            a.orderable_status
+        From
+            tbl_menu a
+        where
+            a.orderable_status = 'Y'
+        ORDER BY
+            a.menu_code
+    </select>
+
+    <select id="getMenuBy" parameterType="_int" resultMap="menuResultMap">
+        select
+            a.menu_code ,
+            a.menu_name ,
+            a.menu_price ,
+            a.category_code ,
+            a.orderable_status
+        From
+            tbl_menu a
+        where
+            a.orderable_status = 'Y' AND
+            a.menu_code = #{ code }
+        ORDER BY
+            a.menu_code
+    </select>
+
+
+    <insert id="resgistMenu" parameterType="com.ohgiraffers.section03.mixed.MenuDTO">
+        INSERT INTO tbl_menu
+            (
+                menu_name,
+                menu_price,
+                category_code,
+                orderable_status
+            )
+        VALUES
+            (
+                #{ name },
+                #{ price },
+                #{ categoryCode },
+                'Y'
+            )
+    </insert>
+
+    <update id="modifyMenu" parameterType="com.ohgiraffers.section03.mixed.MenuDTO">
+        UPDATE
+            tbl_menu
+        SET
+            menu_name = #{ name },
+            menu_price = #{ price },
+            category_code = #{ categoryCode }
+        where
+            menu_code = #{ code }
+
+    </update>
+    
+    <delete id="deleteMenu" parameterType="_int">
+        DELETE
+        FROM
+            tbl_menu
+        WHERE
+            menu_code = #{ code }
+    </delete>
+</mapper>
